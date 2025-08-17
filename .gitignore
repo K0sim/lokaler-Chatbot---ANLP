@@ -1,0 +1,16 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environments
+.venv/
+env/
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ChromaDB & PDFs
+chromadb_store/
