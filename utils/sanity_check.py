@@ -1,5 +1,10 @@
 from chromadb import PersistentClient
 
+''' 
+Nach dem erstmaligen Ausführen von Setup_chroma.py kann man mit diesem kurzen Skript die Chunks und das Format begutachten,
+in der Hoffnung, mögliche Fehler bereits hier zu identifizieren.
+'''
+
 client = PersistentClient(path="./chromadb_store")
 collection = client.get_collection(name="regelwerk")
 
