@@ -14,3 +14,5 @@ Thumbs.db
 
 # ChromaDB & PDFs
 chromadb_store/
+*.pdf
+

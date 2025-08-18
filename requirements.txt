@@ -5,4 +5,7 @@ sentence-transformers
 tqdm
 pypdf
 requests 
+numpy
+rank-bm25 
+pydantic
 
