@@ -21,7 +21,7 @@ class AnswerGenerator:
                     "model": self.model_name,
                     "prompt": prompt,
                     "stream": False,
-                    "options": {"num_predict": 250
+                    "options": {"num_predict": 750
                                 }                }
             )
             response.raise_for_status()

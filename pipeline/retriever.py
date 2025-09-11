@@ -1,3 +1,4 @@
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from chromadb import PersistentClient
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
@@ -9,8 +10,16 @@ from pipeline.reranker import ReRanker
 class HybridRetriever:
     def __init__(self, db_path=DB_PATH, collection_name=COLLECTION_NAME, embedding_model_name=EMBEDDING_MODEL_NAME):
         self.client = PersistentClient(path=db_path)
-        self.collection = self.client.get_collection(name=collection_name)
+
+        # Embedding-Funktion explizit übergeben!
+        embedding_fn = SentenceTransformerEmbeddingFunction(embedding_model_name)
+        self.collection = self.client.get_collection(
+            name=collection_name,
+            embedding_function=embedding_fn 
+        )
+
         self.embedding_model = SentenceTransformer(embedding_model_name)
+    
 
         # Chunks für BM25 vorbereiten
         results = self.collection.get(include=["documents"])
@@ -19,6 +28,7 @@ class HybridRetriever:
         self.metadatas = results["metadatas"]
 
         self.bm25 = BM25Okapi([doc.split() for doc in self.documents])
+        
 
     def retrieve_context(self, query: str, top_k: int = 5, alpha: float = 0.5):
         query_embedding = self.embedding_model.encode(query).tolist()
