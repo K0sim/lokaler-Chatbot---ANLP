@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'chat_ui.ui'
+# Form implementation generated from reading ui file 'C:\Users\ThinkPad\Desktop\FH_SWF\ANLP\lokal_chatbot\UI\chat_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.4.2
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 750)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.textEdit = QtWidgets.QTextEdit(parent=self.centralwidget)
@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
         self.pushButton.setGeometry(QtCore.QRect(650, 150, 130, 40))
         self.pushButton.setObjectName("pushButton")
         self.textBrowser = QtWidgets.QTextBrowser(parent=self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(20, 200, 760, 350))
+        self.textBrowser.setGeometry(QtCore.QRect(20, 200, 760, 550))
         self.textBrowser.setObjectName("textBrowser")
         MainWindow.setCentralWidget(self.centralwidget)
 

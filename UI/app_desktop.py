@@ -7,6 +7,7 @@ from PyQt6 import QtWidgets
 from chat_ui import Ui_MainWindow 
 from pipeline.retriever import HybridRetriever
 from pipeline.generator import AnswerGenerator
+from pipeline.evaluator import LLMJudge
 from config.settings import DB_PATH, COLLECTION_NAME, EMBEDDING_MODEL_NAME
 
 
@@ -19,6 +20,8 @@ class ChatBotApp(QtWidgets.QMainWindow):
         # Initialisiere Retriever und Generator
         self.retriever = HybridRetriever(DB_PATH, COLLECTION_NAME, EMBEDDING_MODEL_NAME)
         self.generator = AnswerGenerator()
+        self.judge = LLMJudge()
+
 
         # Styling
         self.setStyleSheet("""
@@ -57,21 +60,27 @@ class ChatBotApp(QtWidgets.QMainWindow):
 
         # 1. Kontext holen
         contexts, metadaten = self.retriever.retrieve_context(question, top_k=3)
+        context_combined = "\n\n".join(contexts)
 
         # 2. Antwort generieren
-        answer = self.generator.generate_answer(contexts, question)
+        answer = self.generator.generate_answer(context_combined, question)
 
-        # 3. Anzeige
+        # 3. Bewertung durchführen (richtige Reihenfolge!)
+        bewertung = self.judge.evaluate(question, context_combined, answer)
+
+        # 4. Quellen anzeigen
         sources_text = "<ul>" + "".join([
             f"<li>{m['source']} (S. {m['page']}, Titel: <i>{m['title']}</i>)</li>"
             for m in metadaten
         ]) + "</ul>"
 
-        # Anzeige
+        # 5. HTML-Ausgabe
+        bewertung_html = bewertung.replace("\n", "<br>")
         self.ui.textBrowser.setHtml(f"""
             <b>🟡 Frage:</b><br>{question}<br><br>
             <b>🟢 Antwort:</b><br>{answer}<br><br>
-            <b>📚 Quellen:</b>{sources_text}
+            <b>📚 Quellen:</b>{sources_text}<br><br>
+            <b>⚖️ Bewertung:</b><br>{bewertung_html}
         """)
 
 
